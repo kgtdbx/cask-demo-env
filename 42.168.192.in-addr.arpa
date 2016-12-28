@@ -1,0 +1,18 @@
+$ORIGIN 42.168.192.in-addr.arpa.
+$TTL 86400
+@	IN	SOA	ns1.demo.cask.co.	root.demo.cask.co. (
+			2001062501 ; serial
+			21600      ; refresh after 6 hours
+			3600       ; retry after 1 hour
+			604800     ; expire after 1 week
+			86400 )    ; minimum TTL of 1 day
+
+@	IN	NS	ns1.demo.cask.co.
+2       IN      PTR     ns1.demo.cask.co.
+10	IN	PTR	node0.demo.cask.co.
+11	IN	PTR	node1.demo.cask.co.
+12	IN	PTR	node2.demo.cask.co.
+13	IN	PTR	node3.demo.cask.co.
+14	IN	PTR	node4.demo.cask.co.
+15	IN	PTR	node5.demo.cask.co.
+16	IN	PTR	node6.demo.cask.co.

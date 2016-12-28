@@ -1,0 +1,28 @@
+$TTL 86400
+@   IN  SOA     ns1.demo.cask.co. root.demo.cask.co. (
+        2013042201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+; Specify our two namedd:servers
+		IN	NS		ns1.mydomain.com.
+		IN	NS		ns2.mydomain.com.
+; Resolve nameserver hostnames to IP, replace with your two droplet IP addresses.
+ns1		IN	A		192.168.42.2
+ns2		IN	A		192.168.42.2
+
+; Define hostname -> IP pairs which you wish to resolve
+@		IN	A		192.168.42.10
+www		IN	A		192.168.42.10
+cdap            IN      A               192.168.42.10
+node0           IN      A               192.168.42.10
+node1           IN      A               192.168.42.11
+node2           IN      A               192.168.42.12
+node3           IN      A               192.168.42.13
+node4           IN      A               192.168.42.14
+node5           IN      A               192.168.42.15
+node6           IN      A               192.168.42.16
+
+netlens         IN      A               192.168.42.16
