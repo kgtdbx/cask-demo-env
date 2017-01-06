@@ -50,10 +50,7 @@
   -- Name: /VirtualBox/GuestInfo/Net/2/V4/IP, value: 172.17.42.1, timestamp: 1483487002767540800, flags:
 -- Name: /VirtualBox/GuestInfo/Net/1/V4/IP, value: 10.0.0.118, timestamp: 1483486987726617705, flags: 
 
-
-  
-  
-  clonevm                   <uuid|vmname>
+clonevm                   <uuid|vmname>
                             [--snapshot <uuid>|<name>]
                             [--mode machine|machineandchildren|all]
                             [--options link|keepallmacs|keepnatmacs|
@@ -63,8 +60,7 @@
                             [--basefolder <basefolder>]
                             [--uuid <uuid>]
                             [--register]
-                          
-                          
+                                                    
 vboxmanage clonevm "CentoOS68" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
 
 vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
@@ -159,6 +155,11 @@ vboxmanage modifyvm node6 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 
 
 route add default gw 10.0.0.1 eth1
 
+#Get mack address for eth0... only eth0 should start with Macaddr 10
+ip addr |grep "link/ether 10" | awk '{print $2}'
+
+
+
 start dns
 vboxmanage startvm Centos6-DNS --type headless
 vboxmanage controlvm Centos6-DNS poweroff
@@ -195,45 +196,4 @@ snapshot                  <uuid|vmname>
                             list [--details|--machinereadable]
                             showvminfo <uuid|snapname>
                             
-vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live# PCI device 0x8086:0x100e (e1000)
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:a3:01:c5", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
-
-
-Need eth0 HostOnly and eth1 Bridged to come up correctly - Done
-
-Name Machine - 
-
-
-
-
-http://muzso.hu/2012/10/29/how-to-regenerate-the-etc-udev-rules.d-70-persistent-net.rules-file-on-debian-ubuntu
-
-
-
-NETWORKING=yes
-HOSTNAME=node0.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node1.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node2.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node3.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node4.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node5.demo.cask.co
-NTPSERVERARGS=iburst
-
-NETWORKING=yes
-HOSTNAME=node6.demo.cask.co
-NTPSERVERARGS=iburst
+vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live
