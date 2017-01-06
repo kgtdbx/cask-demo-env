@@ -7,9 +7,9 @@
 ./05installjdbc.sh
 
 if [ $# -eq 0 ]; then
-   ./06installlocalmysql.sh
+   echo "USING REMOVE MYSQL DATABASE ON db.demo.cask.co"
 else
-   echo "Using Remove MySQL Database on db.demo.cask.co"
+	./06installlocalmysql.sh
 fi
 
 ./08installcm.sh
