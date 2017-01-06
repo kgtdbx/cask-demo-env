@@ -3,7 +3,7 @@
 if [ $# -eq 0 ]; then
    /usr/share/cmf/schema/scm_prepare_database.sh --host db mysql cm cm cm
 else
-   /usr/share/cmf/schema/scm_prepare_database.sh db mysql cm cm cm
+   /usr/share/cmf/schema/scm_prepare_database.sh mysql cm cm cm
 fi 
 
 service cloudera-scm-server start
