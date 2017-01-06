@@ -1,0 +1,239 @@
+  named-checkconf
+  named-checkconf
+  named-checkzone demo.cask.co /var/named/zones/db.demo.cask.co
+  named-checkzone 42.168.192.in-addr.arpa /var/named/zones/db.192.168.42
+     
+  #Enable epel repo
+  wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+  rpm -ivh epel-release-6-8.noarch.rpm
+  #Install Ansible
+  yum install ansible -y
+  ansible --version
+  #Edit Ansible Hosts file
+  vi /etc/ansible/hosts
+   
+  #ssh-copyid <destination_host>
+   
+  #Clear Bash History Completely
+  rm ~/.bash_history; history -c; logout
+   
+  #Get Vbox Specific Mac Addresses
+  VBoxManage --nologo guestproperty enumerate "CaskWorkshop"  | grep MAC
+   
+  vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live
+  vboxmanage clonevm "CentoOS68" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm\node5" --register
+  start dns
+  vboxmanage startvm Centos6-DNS --type headless
+  vboxmanage controlvm Centos6-DNS poweroff
+   
+  -- Create hostonly network if it doesn't exist - NOTE windows requires a full reboot after touching hostonly network. 
+  -- Adding route doesn't fix, only reboot fixes.
+  -- Assign 192.168.42/24 network
+   
+  vboxmanage list hostonlyifs
+  vboxmanage hostonlyif create
+  vboxmanage hostonlyif ipconfig "VirtualBox Host-Only Ethernet Adapter" --ip 192.168.42.1
+  hostonlyif ipconfig      
+   
+  -- Unregister VM and remove all vm disk files and sub-directories
+  vboxmanage unregistervm node1 --delete
+   
+  -- guestproperty get IP address for first adapter - this should always be the 192.168.42/24 network
+  vboxmanage guestproperty get CaskWorkshop "/VirtualBox/GuestInfo/Net/0/V4/IP"
+   
+  -- C:\Users\ted\Projects\cask-demo-env>vboxmanage guestproperty get CaskWorkshop "/VirtualBox/GuestInfo/Net/0/V4/IP"
+  -- Value: 192.168.42.102
+   
+  -- Another example using Windows findstr instead of grep
+  -- C:\Users\ted\Projects\cask-demo-env>vboxmanage guestproperty enumerate CaskWorkshop |findstr IP
+  -- Name: /VirtualBox/GuestInfo/Net/0/V4/IP, value: 192.168.42.102, timestamp: 1483486987726117000, flags:
+  -- Name: /VirtualBox/GuestInfo/Net/2/V4/IP, value: 172.17.42.1, timestamp: 1483487002767540800, flags:
+-- Name: /VirtualBox/GuestInfo/Net/1/V4/IP, value: 10.0.0.118, timestamp: 1483486987726617705, flags: 
+
+
+  
+  
+  clonevm                   <uuid|vmname>
+                            [--snapshot <uuid>|<name>]
+                            [--mode machine|machineandchildren|all]
+                            [--options link|keepallmacs|keepnatmacs|
+                                       keepdisknames]
+                            [--name <name>]
+                            [--groups <group>, ...]
+                            [--basefolder <basefolder>]
+                            [--uuid <uuid>]
+                            [--register]
+                          
+                          
+vboxmanage clonevm "CentoOS68" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
+
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node1" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node2" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node3" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node4" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node6" --basefolder "C:\app\vbox\vm" --register
+
+vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
+vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage startvm node0 --type headless
+vboxmanage guestproperty enumerate node0 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node0 |findstr Net/1/V4/IP
+
+vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010
+vboxmanage modifyvm CaskWorkshop --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+
+vboxmanage startvm node0 --type headless
+vboxmanage startvm node1 --type headless
+vboxmanage startvm node2 --type headless
+vboxmanage startvm node3 --type headless
+vboxmanage startvm node4 --type headless
+vboxmanage startvm node5 --type headless
+vboxmanage startvm node6 --type headless
+
+vboxmanage guestproperty enumerate node0 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node1 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node2 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node3 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node4 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node5 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node6 |findstr Net/0/V4/IP
+
+vboxmanage controlvm node0 poweroff
+vboxmanage controlvm node1 poweroff
+vboxmanage controlvm node2 poweroff
+vboxmanage controlvm node3 poweroff
+vboxmanage controlvm node4 poweroff
+vboxmanage controlvm node5 poweroff
+vboxmanage controlvm node6 poweroff
+
+vboxmanage unregistervm node0 --delete
+vboxmanage unregistervm node1 --delete
+vboxmanage unregistervm node2 --delete
+vboxmanage unregistervm node3 --delete
+vboxmanage unregistervm node4 --delete
+vboxmanage unregistervm node5 --delete
+vboxmanage unregistervm node6 --delete
+
+ssh root@192.168.42.104
+ssh root@192.168.42.105
+ssh root@192.168.42.108
+ssh root@192.168.42.107
+ssh root@192.168.42.106
+ssh root@192.168.42.109
+ssh root@192.168.42.102
+
+scp ifcfg-eth0-0.txt root@192.168.42.104:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-1.txt root@192.168.42.105:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-2.txt root@192.168.42.108:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-3.txt root@192.168.42.107:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-4.txt root@192.168.42.106:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-5.txt root@192.168.42.109:/etc/sysconfig/network-scripts/ifcfg-eth0
+scp ifcfg-eth0-6.txt root@192.168.42.102:/etc/sysconfig/network-scripts/ifcfg-eth0
+
+scp ifcfg-eth0-0.txt root@192.168.42.104:/etc/sysconfig/network
+scp ifcfg-eth0-1.txt root@192.168.42.105:/etc/sysconfig/network
+scp ifcfg-eth0-2.txt root@192.168.42.108:/etc/sysconfig/network
+scp ifcfg-eth0-3.txt root@192.168.42.107:/etc/sysconfig/network
+scp ifcfg-eth0-4.txt root@192.168.42.106:/etc/sysconfig/network
+scp ifcfg-eth0-5.txt root@192.168.42.109:/etc/sysconfig/network
+scp ifcfg-eth0-6.txt root@192.168.42.102:/etc/sysconfig/network
+
+vboxmanage guestproperty get node0 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node1 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node2 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node3 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node4 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node5 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node6 /VirtualBox/GuestInfo/Net/0/MAC
+
+vboxmanage modifyvm CaskWorkshop --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000099 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node1 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000011 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node2 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000012 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node3 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000013 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node4 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000014 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node5 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000015 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node6 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000016 --clipboard bidirectional --draganddrop hosttoguest
+
+route add default gw 10.0.0.1 eth1
+
+start dns
+vboxmanage startvm Centos6-DNS --type headless
+vboxmanage controlvm Centos6-DNS poweroff
+
+Set FQDN for Each machine
+
+update ifcfg
+upate resolv.conf
+reboot
+
+vboxmanage list hostonlyifs
+vboxmanage hostonlyif create
+vboxmanage hostonlyif ipconfig "VirtualBox Host-Only Ethernet Adapter" --ip 192.168.42.1
+
+hostonlyif ipconfig 
+                            [--dhcp |
+                            --ip<ipv4> [--netmask<ipv4> (def: 255.255.255.0)] |
+                            --ipv6<ipv6> [--netmasklengthv6<length> (def: 64)]]
+                            create |
+                            remove <name>
+                            
+
+
+
+snapshot                  <uuid|vmname>
+                            take <name> [--description <desc>] [--live]
+                                 [--uniquename Number,Timestamp,Space,Force] |
+                            delete <uuid|snapname> |
+                            restore <uuid|snapname> |
+                            restorecurrent |
+                            edit <uuid|snapname>|--current
+                                 [--name <name>]
+                                 [--description <desc>] |
+                            list [--details|--machinereadable]
+                            showvminfo <uuid|snapname>
+                            
+vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live# PCI device 0x8086:0x100e (e1000)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:a3:01:c5", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
+
+
+Need eth0 HostOnly and eth1 Bridged to come up correctly - Done
+
+Name Machine - 
+
+
+
+
+http://muzso.hu/2012/10/29/how-to-regenerate-the-etc-udev-rules.d-70-persistent-net.rules-file-on-debian-ubuntu
+
+
+
+NETWORKING=yes
+HOSTNAME=node0.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node1.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node2.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node3.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node4.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node5.demo.cask.co
+NTPSERVERARGS=iburst
+
+NETWORKING=yes
+HOSTNAME=node6.demo.cask.co
+NTPSERVERARGS=iburst

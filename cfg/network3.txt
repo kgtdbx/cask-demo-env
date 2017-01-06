@@ -1,0 +1,3 @@
+NETWORKING=yes
+HOSTNAME=node3.demo.cask.co
+NTPSERVERARGS=iburst

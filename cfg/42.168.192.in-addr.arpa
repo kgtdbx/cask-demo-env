@@ -9,6 +9,7 @@ $TTL 86400
 
 @	IN	NS	ns1.demo.cask.co.
 2       IN      PTR     ns1.demo.cask.co.
+4       IN      PTR     db.demo.cask.co.
 10	IN	PTR	node0.demo.cask.co.
 11	IN	PTR	node1.demo.cask.co.
 12	IN	PTR	node2.demo.cask.co.
@@ -16,3 +17,4 @@ $TTL 86400
 14	IN	PTR	node4.demo.cask.co.
 15	IN	PTR	node5.demo.cask.co.
 16	IN	PTR	node6.demo.cask.co.
+99      IN      PTR     workshop.demo.cask.co.
