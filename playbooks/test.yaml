@@ -1,0 +1,12 @@
+---
+
+- hosts: test
+remove_user: root
+tasks: 
+- name: ensure ntp is running and enabled
+  service: name ntp state=started enabled=yes
+handler:
+  - name start ntp
+    service: name=ntp state=restarted
+
+
