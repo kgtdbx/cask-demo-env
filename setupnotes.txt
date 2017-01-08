@@ -174,6 +174,17 @@ vboxmanage list hostonlyifs
 vboxmanage hostonlyif create
 vboxmanage hostonlyif ipconfig "VirtualBox Host-Only Ethernet Adapter" --ip 192.168.42.1
 
+
+vboxmanage modifymedium --compact "C:\Users\ted\VirtualBox VMs\CaskDBNode\CaskDBNode.vdi"
+ modifymedium              [disk|dvd|floppy] <uuid|filename>
+                            [--type normal|writethrough|immutable|shareable|
+                                    readonly|multiattach]
+                            [--autoreset on|off]
+                            [--property <name=[value]>]
+                            [--compact]
+                            [--resize <megabytes>|--resizebyte <bytes>]
+                            [--move <full path to a new location>]
+
 hostonlyif ipconfig 
                             [--dhcp |
                             --ip<ipv4> [--netmask<ipv4> (def: 255.255.255.0)] |
@@ -197,3 +208,33 @@ snapshot                  <uuid|vmname>
                             showvminfo <uuid|snapname>
                             
 vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live
+
+
+
+Mac Address determines purpose
+There are currently 10 possible nodes within the cluster
+   workshop    IP 99 MAC 100000000099
+	DNS    IP 2  MAC 100000000002
+	DB     IP 4  MAC 100000000004
+	node0  IP 10 MAC 100000000010
+	node1  IP 11 MAC 100000000011
+	node2  IP 12 MAC 100000000012
+	node3  IP 13 MAC 100000000013
+	node4  IP 14 MAC 100000000014
+	node5  IP 15 MAC 100000000015
+	node6  IP 16 MAC 100000000016
+MAC address and IP are known  
+Base node has code to check for MAC
+	if Mac 99, then the node is base
+	check for first mac.. 
+		can I reach 192.168.42.10
+			if not then create node0 from vboxmanage
+		
+		quesion.... run from vboxmanage or from within each node...
+		
+		question answered run from host/vbox not from within each node.
+		no way to chck from host outward... better to drive from host via mac an ip
+
+		
+		
+	        

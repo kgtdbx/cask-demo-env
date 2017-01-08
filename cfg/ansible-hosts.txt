@@ -1,0 +1,49 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+#
+#   Workshop Topology - See /etc/hosts
+#   
+#
+
+[name-servers]
+# 192.168.42.[2-3]
+ns1.demo.cask.co
+
+[cloudera-manager]
+# 192.168.42.10
+cm.demo.cask.co
+cdap.demo.cask.co
+
+[cluster-nodes]
+# 192.168.42[11-16]
+node[0:16].demo.cask.co
+
+[host-network]
+192.168.42.[1:16]
+
+[namenode]
+
+[datanodes]
+
+# Individual Node Directives
+[workshop]
+[test]
+[base]
+[ns1]
+[cm]
+[db]
+[node0]
+[node1]
+[node2]
+[node3]
+[node4]
+[node5]
+[node6]
+
