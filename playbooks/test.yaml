@@ -1,12 +1,8 @@
 ---
-
 - hosts: test
-  remote_user: root
-tasks: 
-- name: ensure ntpd is running and enabled
-  service: name ntpd state=started enabled=yes
-handler:
-  - name start ntpd
-    service: name=ntpd state=restarted
-
-
+  tasks:
+   - name: check ntpd is running 
+     service: name=ntpd state=running 
+  handlers: 
+   - name: restart ntpd
+     service: name=ntpd state=restart
