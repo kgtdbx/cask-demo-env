@@ -1,0 +1,12 @@
+---
+- hosts: test
+  sudo: no
+  remote_user: root
+  serial: 2
+
+  vars: nginx_listen_port: 80
+
+  tasks: 
+    - name: j2 write test
+      template: src/templates/ifcfg-eth2.j2 dest=/tmp/ifcfg-eth0
+
