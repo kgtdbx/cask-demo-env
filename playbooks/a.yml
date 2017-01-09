@@ -1,0 +1,9 @@
+--- 
+- hosts: test
+  remote_user: root
+  serial: 2
+  vars: 
+    nginx_listen_port: 80
+  tasks: 
+  - name: "try to fucking run something"
+    template: "src=./templates/t.j2 dest=/tmp/j2.txt"

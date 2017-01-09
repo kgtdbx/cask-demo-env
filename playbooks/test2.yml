@@ -1,12 +1,71 @@
 ---
 - hosts: test
-  sudo: no
   remote_user: root
   serial: 2
-
-  vars: nginx_listen_port: 80
+  
+# Temporarily no DRY - working on Jinga2 Conditional Template
 
   tasks: 
-    - name: j2 write test
-      template: src/templates/ifcfg-eth2.j2 dest=/tmp/ifcfg-eth0
+    - name: Update Ansible Hosts File
+      template: src=./cfg/ansible-hosts.txt dest=/etc/ansible/hosts
+
+  tasks: 
+    - name: Configure Cloudera Manager Node0
+      template: src=./cfg/ifcfg-eth0-10.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-10.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:10" )
+
+  tasks: 
+    - name: Configure Node1
+      template: src=./cfg/ifcfg-eth0-11.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-11.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:11") )
+      
+  tasks: 
+    - name: Configure Node2
+      template: src=./cfg/ifcfg-eth0-12.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-12.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:12" )
+
+  tasks: 
+    - name: Configure Node3
+      template: src=./cfg/ifcfg-eth0-13.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname13.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:13" )
+      
+  tasks: 
+    - name: Configure Node4
+      template: src=./cfg/ifcfg-eth0-14.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-14.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:14" )
+      
+  tasks: 
+    - name: Configure Node5
+      template: src=./cfg/ifcfg-eth0-15.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-15.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:15" )
+      
+  tasks: 
+    - name: Configure Node6
+      template: src=./cfg/ifcfg-eth0-16.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-16.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:16" )
+      
+  tasks: 
+    - name: Configure Workshop Node
+      template: src=./cfg/ifcfg-eth0-99.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-99.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:99" )
+      
+  tasks: 
+    - name: Configure Database Node
+      template: src=./cfg/ifcfg-eth0-4.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-4.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:04" )
+      
+  tasks: 
+    - name: Configure Name Server Node
+      template: src=./cfg/ifcfg-eth0-2.txt dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+      template: src=./cfg/hostname-2.txt dest=/etc/sysconfig/network
+      when: (ansible_eth0.macaddress == "10:00:00:00:00:02" )
 

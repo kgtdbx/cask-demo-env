@@ -1,3 +1,12 @@
+  ansible test -s -m setup -a 'filter=ansible_eth2'
+  ansible test -s -m ping -u root
+  ansible test -s -m shell -a 'df -kh' -u root
+  
+   uuidgen eth0
+  
+  
+  
+  
   named-checkconf
   named-checkconf
   named-checkzone demo.cask.co /var/named/zones/db.demo.cask.co
