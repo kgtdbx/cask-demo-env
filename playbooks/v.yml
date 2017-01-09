@@ -1,0 +1,8 @@
+---
+- hosts: test
+  remote_user: root
+  
+
+  tasks:
+    - name: copy template
+      template: src=./cfg/variables.j2 dest="/tmp/variables.txt"

@@ -1,0 +1,40 @@
+Hello and what a great day.  
+Today is {{ ansible_date_time.date }} according to {{ ansible_hostname }} on IP {{ ansible_host }}.
+My host name is {{ ansible_hostname }}.
+My MAC Address is {{ ansible_eth0.macaddress }}
+All IP Addresses are {{ ansible_all_ipv4_addresses }}.
+
+My IPV4 info is as follows:
+  ansible_eth0.ipv4.addressAddress:   {{ ansible_eth0.ipv4.address }}
+  ansible_eth0.ipv4.addressBroadcast: {{ ansible_eth0.ipv4.broadcast }}
+  ansible_eth0.ipv4.addressNetmask:   {{ ansible_eth0.ipv4.netmask }}
+  ansible_eth0.ipv4.address Network:  {{ ansible_eth0.ipv4.network }}
+
+The virtual machine host machine is:
+   ansible_lsb.codename     {{ ansible_lsb.codename  }}
+   ansible_lsb.description  {{ ansible_lsb.description }}
+   ansible_lsb.id	    {{ ansible_lsb.id }}  
+   ansible_lsb.release      {{ ansible_lsb.release }}    
+   
+My Name Server Information:
+   ansible_dns.nameservers {{ ansible_dns.nameservers}}
+   ansible_dns.ansible_search {{ ansible_dns.search }}
+
+My Domain:
+   ansible_domain {{ ansible_domain }}
+   
+   
+My Processor Information:
+   ansible_processor_cores            {{ ansible_processor_cores }}
+   ansible_processor_count            {{ ansible_processor_count }} 
+   ansible_processor_threads_per_core {{ ansible_processor_threads_per_core }}
+   ansible_processor_vcpus            {{ ansible_processor_vcpus }} 
+   ansible_product_name               {{ ansible_product_name }} 
+
+My available interfaces are:
+ ansible_interfaces {{ ansible_interfaces }}
+ 
+ 
+That all for now!!!  See ya!
+
+
