@@ -2,10 +2,16 @@
   ansible test -s -m ping -u root
   ansible test -s -m shell -a 'df -kh' -u root
   
+  
+  FOR /F  %i IN ('c:\app\oracle\vbox\VBoxManage.exe list vms') DO vboxmanage controlvm %i poweroff|findstr node
+  
+  
+  
    uuidgen eth0
-  
-  
-  
+
+when: condition1 == "condition1" or condition2 == "condition2"
+
+cat /lib/udev/rules.d/75-persistent-net-generator.rules
   
   named-checkconf
   named-checkconf
@@ -29,7 +35,8 @@
   #Get Vbox Specific Mac Addresses
   VBoxManage --nologo guestproperty enumerate "CaskWorkshop"  | grep MAC
    
-  vboxmanage snapshot CaskWorkshop take --description "base snapshot" --live
+  vboxmanage snapshot cask-workshop-base-vbox take base --description "base snapshot" --live
+  vboxmanage snapshot cask-workshop-base-vbox take base --description "base" --live
   vboxmanage clonevm "CentoOS68" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm\node5" --register
   start dns
   vboxmanage startvm Centos6-DNS --type headless
@@ -72,22 +79,25 @@ clonevm                   <uuid|vmname>
                                                     
 vboxmanage clonevm "CentoOS68" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
 
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node1" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node2" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node3" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node4" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node6" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node1" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node2" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node3" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node4" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node5" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node6" --basefolder "C:\app\vbox\vm" --register
 
-vboxmanage clonevm "CaskWorkshop" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name "node0" --basefolder "C:\app\vbox\vm" --register
 vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node0 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
 vboxmanage startvm node0 --type headless
 vboxmanage guestproperty enumerate node0 |findstr Net/0/V4/IP
 vboxmanage guestproperty enumerate node0 |findstr Net/1/V4/IP
 
+vboxmanage controlvm node0 acpipowerbutton
+
 vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010
-vboxmanage modifyvm CaskWorkshop --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm node0 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
 
 vboxmanage startvm node0 --type headless
 vboxmanage startvm node1 --type headless
@@ -153,7 +163,9 @@ vboxmanage guestproperty get node4 /VirtualBox/GuestInfo/Net/0/MAC
 vboxmanage guestproperty get node5 /VirtualBox/GuestInfo/Net/0/MAC
 vboxmanage guestproperty get node6 /VirtualBox/GuestInfo/Net/0/MAC
 
-vboxmanage modifyvm CaskWorkshop --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000099 --clipboard bidirectional --draganddrop hosttoguest
+
+
+vboxmanage modifyvm cask-workshop-base-vbox --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000099 --clipboard bidirectional --draganddrop hosttoguest
 vboxmanage modifyvm node0 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000010 --clipboard bidirectional --draganddrop hosttoguest
 vboxmanage modifyvm node1 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000011 --clipboard bidirectional --draganddrop hosttoguest
 vboxmanage modifyvm node2 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000012 --clipboard bidirectional --draganddrop hosttoguest
@@ -161,6 +173,71 @@ vboxmanage modifyvm node3 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 
 vboxmanage modifyvm node4 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000014 --clipboard bidirectional --draganddrop hosttoguest
 vboxmanage modifyvm node5 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000015 --clipboard bidirectional --draganddrop hosttoguest
 vboxmanage modifyvm node6 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000016 --clipboard bidirectional --draganddrop hosttoguest
+
+vboxmanage modifyvm cask-workshop-node1 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node2 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node3 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node4 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node5 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node6 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+
+
+vboxmanage startvm cask-workshop-dns --type headless
+vboxmanage startvm cask-workshop-db --type headless
+
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name cask-workshop-node1 --basefolder "C:\app\vbox\vm" --register
+vboxmanage modifyvm cask-workshop-node1 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000011 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm cask-workshop-node1 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage guestproperty get cask-workshop-node1 /VirtualBox/GuestInfo/Net/0/MAC
+
+
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node1 --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node2 --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node3 --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node4 --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node5 --basefolder "C:\app\vbox\vm" --register
+vboxmanage clonevm "cask-workshop-base-vbox" --snapshot "base" --mode machine --options link --name node6 --basefolder "C:\app\vbox\vm" --register
+
+vboxmanage modifyvm node1 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000011 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node2 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000012 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node3 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000013 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node4 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000014 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node5 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000015 --clipboard bidirectional --draganddrop hosttoguest
+vboxmanage modifyvm node6 --nic1 hostonly --nicpromisc1 allow-all --macaddress1 100000000016 --clipboard bidirectional --draganddrop hosttoguest
+
+vboxmanage modifyvm cask-workshop-node1 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node2 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node3 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node4 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node5 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+vboxmanage modifyvm cask-workshop-node6 --nic2 bridged --nicpromisc2 allow-all --macaddress2 auto
+
+vboxmanage guestproperty enumerate node1 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node2 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node3 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node4 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node5 |findstr Net/0/V4/IP
+vboxmanage guestproperty enumerate node6 |findstr Net/0/V4/IP
+
+vboxmanage guestproperty enumerate node1 |findstr Net/1/V4/IP
+vboxmanage guestproperty enumerate node2 |findstr Net/1/V4/IP
+vboxmanage guestproperty enumerate node3 |findstr Net/1/V4/IP
+vboxmanage guestproperty enumerate node4 |findstr Net/1/V4/IP
+vboxmanage guestproperty enumerate node5 |findstr Net/1/V4/IP
+vboxmanage guestproperty enumerate node6 |findstr Net/1/V4/IP
+
+vboxmanage guestproperty get node0 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node1 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node2 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node3 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node4 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node5 /VirtualBox/GuestInfo/Net/0/MAC
+vboxmanage guestproperty get node6 /VirtualBox/GuestInfo/Net/0/MAC
+
+
+
+
+
 
 route add default gw 10.0.0.1 eth1
 

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mysql -u root --password='cloudera' <  ./cfg/db.sql  ;
+mysql -u root --password='cloudera' <  ./playbooks/cfg/db.sql  ;

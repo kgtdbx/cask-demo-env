@@ -1,0 +1,26 @@
+{% for item in NETWORK_INTERFACES %}  
+auto {{ item.vlan_name }}  
+iface {{ item.vlan_name }} inet static  
+    address {{ item.ip_net }}.{{ HOST_IP_OCTET }}  
+    netmask 255.255.255.0  
+    network {{ item.ip_net }}.0  
+    broadcast {{ item.ip_net }}.255  
+    pre-up ip link add link {{ item.dev }} name {{ item.vlan_name }} type vlan id {{ item.vlan_tag }}  
+    pre-up ip link set dev {{ item.vlan_name }} mtu 9000  
+    pre-up ethtool -K {{ item.vlan_name }} gro off  
+    post-down ip link delete {{ item.vlan_name }}  
+{% if item.gateway is defined %}  
+    post-up ip route add {{ item.ip_net }}.0/24 dev {{ item.vlan_name }} table {{ item.rt_table }}  
+    post-up ip route add default via {{ item.gateway }} table {{ item.rt_table }}  
+    post-up ip rule add from {{ item.ip_net }}.{{ HOST_IP_OCTET }} table {{ item.rt_table }}  
+    pre-down ip rule delete from {{ item.ip_net }}.{{ HOST_IP_OCTET }} table {{ item.rt_table }}  
+    pre-down ip route delete default via {{ item.gateway }} table {{ item.rt_table }}  
+    pre-down ip route delete {{ item.ip_net }}.0/24 dev {{ item.vlan_name }} table {{ item.rt_table }}  
+{% endif %}  
+{% if item.default_gateway is defined %}  
+    post-up ip route add default via {{ item.default_gateway }}  
+    pre-down ip route delete default via {{ item.default_gateway }}  
+    dns-search baremetal.{{ DOMAIN }} {{ DOMAIN }}  
+    dns-nameservers 10.0.0.{{ HOST_IP_OCTET }} 8.8.8.8  
+{% endif %}
+{% endfor %}
