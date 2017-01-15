@@ -1,3 +1,0 @@
-NETWORKING=yes
-HOSTNAME=node5.demo.cask.co
-NTPSERVERARGS=iburst
