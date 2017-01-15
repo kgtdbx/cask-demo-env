@@ -1,20 +1,18 @@
-DEVICE=eth0
+HWADDR={{ ansible_eth0.macaddress }}
+TYPE=Ethernet
 BOOTPROTO=none
-ONBOOT=yes
-NETWORK=192.168.42.0
-NETMASK=255.255.255.0
-IPADDR={{ip_address}}
-{{ IPADDR=192.168.42.10  if ansible_eth0.macaddress = "10:00:00:00:00:10" }}
-{{ IPADDR=192.168.42.11  if ansible_eth0.macaddress = "10:00:00:00:00:11" }}
-{{ IPADDR=192.168.42.12  if ansible_eth0.macaddress = "10:00:00:00:00:12" }}
-{{ IPADDR=192.168.42.13  if ansible_eth0.macaddress = "10:00:00:00:00:13" }}
-{{ IPADDR=192.168.42.14  if ansible_eth0.macaddress = "10:00:00:00:00:14" }}
-{{ IPADDR=192.168.42.15  if ansible_eth0.macaddress = "10:00:00:00:00:15" }}
-{{ IPADDR=192.168.42.16  if ansible_eth0.macaddress = "10:00:00:00:00:16" }}
-{{ IPADDR=192.168.42.42  if ansible_eth0.macaddress = "10:00:00:00:00:42" }}
-{{ IPADDR=192.168.42.43  if ansible_eth0.macaddress = "10:00:00:00:00:43" }}
 USERCTL=yes
+IPADDR=192.168.42.{{ host_id }}
+PREFIX=24
+GATEWAY=192.168.42.1
 PEERDNS=yes
 DNS1=192.168.42.2
 DNS2=192.168.42.2
-HWADDR={{ ansible_eth0.macaddress }}
+DOMAIN=demo.cask.co
+DEFROUTE=no
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+NAME="eth0"
+DEVICE=eth0
+ONBOOT=yes
+
