@@ -4,11 +4,16 @@ My host name is {{ ansible_hostname }}.
 My MAC Address is {{ ansible_eth0.macaddress }}
 All IP Addresses are {{ ansible_all_ipv4_addresses }}.
 
+{% if ansible_eth0.ipv4 is defined %}
 My IPV4 info is as follows:
-  ansible_eth0.ipv4.addressAddress:   {{ ansible_eth0.ipv4.address }}
+  ansible_eth0.ipv4.addressAddress:   {{ ansible_eth0.ipv4.address  }}
   ansible_eth0.ipv4.addressBroadcast: {{ ansible_eth0.ipv4.broadcast }}
-  ansible_eth0.ipv4.addressNetmask:   {{ ansible_eth0.ipv4.netmask }}
-  ansible_eth0.ipv4.address Network:  {{ ansible_eth0.ipv4.network }}
+  ansible_eth0.ipv4.addressNetmask:   {{ ansible_eth0.ipv4.netmask  }}
+  ansible_eth0.ipv4.address Network:  {{ ansible_eth0.ipv4.network  }}
+{% else  %}
+  !!! WARNING: ansible_eth0.ipv4 is not defined !!!!!
+  !!  DO SOMETHING ABOUT THIS                   !!!!!
+{% endif %}
 
 The virtual machine host machine is:
    ansible_lsb.codename     {{ ansible_lsb.codename  }}
