@@ -1,2 +1,3 @@
 *.ova
 cask_dev_cloudera_enterprise_license.txt
+*.retry
