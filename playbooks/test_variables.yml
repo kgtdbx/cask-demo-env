@@ -1,0 +1,15 @@
+---
+- hosts: test
+  remote_user: root
+ 
+  vars:
+    host_id: "{{ ansible_eth0.macaddress | regex_replace('^1.*0(.*)$', '\\1') }}"
+
+  tasks:
+    - name: copy template
+      template: src=./templates/variables.j2 dest="/tmp/variables.txt"
+
+    - debug:
+        var: host_id
+    - debug:
+        var: test
