@@ -1,0 +1,28 @@
+#!/bin/sh
+# chkconfig: 345 99 10
+# description: logon screen start.
+#
+# Clear and write Issues file for VM Console Display
+
+case "$1" in
+    'start')
+        echo > /etc/issue
+        cat /etc/purpose  >> /etc/issue
+        echo "Hostname:" `uname -n`  >> /etc/issue
+	echo >> /etc/issue
+	cat /etc/system-release >> /etc/issue
+ 	echo "Kernel" `uname -r` >> /etc/issue
+        echo >> /etc/issue 
+        echo "Network" >> /etc/issue
+        echo ------------------------------------------ >> /etc/issue
+        ip addr |grep inet |grep -v inet6 |grep -v 127 | awk '{print $7 " " $2} ' >> /etc/issue
+        echo >> /etc/issue
+        
+        cat /etc/motc > /etc/motd
+        cat /etc/issue >> /etc/motd
+        
+        echo /etc/issue and /etc/motd reset
+
+        ;;
+
+esac
