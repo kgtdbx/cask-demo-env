@@ -2,6 +2,8 @@ Hello and what a great day.
 Today is {{ ansible_date_time.date }} according to {{ ansible_hostname }} on IP {{ ansible_host }}.
 My host name is {{ ansible_hostname }}.
 
+My host_id: {{host_id}}
+
 {% if ansible_eth0.macaddress == "10:00:00:00:00:42"  %}
 !!!! THIS IS THE ANSWER.. WHAT DO YOU GET WHEN YOU MULTIPLY 6x9? !!!!!
 {% endif %}
