@@ -33,3 +33,6 @@ node6           IN      A               192.168.42.16
 netlens         IN      A               192.168.42.16
 
 workshop        IN      A               192.168.42.99
+
+standalone      IN      A               192.168.42.42
+quickstart      In      A               192.168.42.50

@@ -12,3 +12,4 @@
 192.168.42.16	node6.demo.cask.co node6   #Alternate CDAP or other App Server
 192.168.42.99   workshop.demo.cask.co workshop ws #Base Node for Workshop
 192.168.42.42   standalone.demo.cask.co standalone #Restable Standalone VM
+192.168.42.50   quickstart.demo.cask.co quickstart # Cloudera Quickstart VM

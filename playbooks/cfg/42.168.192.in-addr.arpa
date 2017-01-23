@@ -18,3 +18,5 @@ $TTL 86400
 15	IN	PTR	node5.demo.cask.co.
 16	IN	PTR	node6.demo.cask.co.
 99      IN      PTR     workshop.demo.cask.co.
+42      IN      PTR     standalone.demo.cask.co.
+50      IN      PTR     quickstart.demo.cask.co.
