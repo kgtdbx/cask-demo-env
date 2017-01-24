@@ -6,7 +6,6 @@ $WebClient = New-Object System.Net.WebClient
 $WebClient.DownloadFile($url,$localfile)
 #>
 
-# wget "http://www.contoso.com" -outfile "file"
 
 $version_list = import-csv .\cdap-versions.txt
 $selections = $version_list | Select @{Name="select";Expression={$global:i++;$global:i}},version,url
