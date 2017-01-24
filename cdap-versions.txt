@@ -1,0 +1,8 @@
+version,url
+4.0.0,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/4.0.0/cdap-sdk-4.0.0.zip
+3.6.0,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.6.0/cdap-sdk-3.6.0.zip
+3.5.3,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.5.3/cdap-sdk-3.5.3.zip
+3.4.3,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.4.3/cdap-sdk-3.4.3.zip
+3.3.7,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.3.7/cdap-sdk-3.3.7.zip
+3.2.2,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.2.2/cdap-sdk-3.2.2.zip
+3.1.2,http://repository.cask.co/downloads/co/cask/cdap/cdap-sdk/3.1.2/cdap-sdk-3.1.2.zip
