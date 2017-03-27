@@ -59,23 +59,46 @@ $cdap_sdk="$cdap_home\$link_name"
 # Check if CDAP is running
 <# unimplimented #>
 
+#test if current sdk directory is there
+if (test-path $cdap_sdk) {$current = get-item $cdap_sdk}
+
 # Get directory list
 $cdap = get-ChildItem $cdap_home -Directory `
 | Where-Object -FilterScript {($_.Name -like 'cdap*')} `
 | Select @{Name="select";Expression={$global:i++;$global:i}},Name,FullName
 
+write-host Current SDK: $current.target
+
 $cdap | format-table |out-string | % {write-host $_}
 [int]$selection = Read-Host 'Enter selection'
 
+if ($selection) { 
 if (test-path $cdap_sdk) {cmd /c "rmdir $cdap_sdk"}
+
+# Rename current target directory removing active date tag
+rename-item $current.target ($current.target -replace '-Active-[0-9]*', '')
 
 #Create Link - using cdap_home and link_name
 $link = $cdap | Where-Object {$_.select -eq $selection}
 $link | format-table |out-string | % {write-host $_}
-New-Item -ItemType SymbolicLink -Path $cdap_home -Name $link_name -Value $link.FullName
+
+$stamp = get-date -Format yyyyMMdd
+$stamp = -Join("-ACTIVE-",$stamp)
+
+$ActiveSDK = -join($link.FullName,$stamp)
+write-host $ActiveSDK
+
+rename-item $link.FullName $ActiveSDK
+
+New-Item -ItemType SymbolicLink -Path $cdap_home -Name $link_name -Value $ActiveSDK
+
+} else
+{write-output "Nothing selected"}
+
 
 Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
 
 
 
