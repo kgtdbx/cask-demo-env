@@ -4,7 +4,7 @@
 ##  https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
 ##
 ####################################################################################################
-
+<#
 # Get the ID and security principal of the current user account
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
@@ -39,7 +39,7 @@ else
    # Exit from the current, unelevated, process
    exit
    }
-   
+#>
 ############################################################################################
 <# 
    Script launches CDAP in Elevated Mode
